@@ -6,8 +6,8 @@ function loginForm() {
 	<div class="form-group"  style="width:70%; height:100px; float:center; background-color: #075E54; border:1px solid #063; margin:auto;">
 		<div id="loginform">
 			<form action="index.php" method="post">
-			<h1>bienvenido</h1>
-				<p style="text-align: center; color:white;"><label for="name" >por favor entra con su nombre</label>
+			<h1>Bienvenidos</h1>
+				<p style="text-align: center; color:white;"><label for="name" >por favor entre con su nombre</label>
                 </p>
 				<input type="text" name="name" id="name" class="form-control" placeholder="nombre"/>
 
@@ -22,8 +22,8 @@ function loginForm() {
 if (isset ( $_POST ['enter'] )) {
     if ($_POST ['name'] != "") {
         $_SESSION ['name'] = stripslashes ( htmlspecialchars ( $_POST ['name'] ) );
-        $cb = fopen ( "log.html", 'a' );
-        fwrite ( $cb, "<div class='msgln'><i>User " . $_SESSION ['name'] . " se ha unido a la sesión de chat.</i><br></div>" );
+        $cb = fopen ( "index.html", 'a' );
+        fwrite ( $cb, "<div class='msgln'><i>Usuario " . $_SESSION ['name'] . " se ha unido a la sesión de chat.</i><br></div>" );
         fclose ( $cb );
     } else {
         echo '<span class="error" >entra con su nombre</span>';
@@ -31,8 +31,8 @@ if (isset ( $_POST ['enter'] )) {
 }
  
 if (isset ( $_GET ['logout'] )) {
-    $cb = fopen ( "log.html", 'a' );
-    fwrite ( $cb, "<div class='msgln'><i>User " . $_SESSION ['name'] . " ha abandonado la sesión de chat.</i><br></div>" );
+    $cb = fopen ( "index.html", 'a' );
+    fwrite ( $cb, "<div class='msgln'><i>Usuari " . $_SESSION ['name'] . " ha abandonado la sesión de chat.</i><br></div>" );
     fclose ( $cb );
     session_destroy ();
     header ( "Location: index.php" );
@@ -44,7 +44,7 @@ if (isset ( $_GET ['logout'] )) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Linvir</title>
+    <title>Xoce</title>
     <link  rel="stylesheet" href="style.css">
 	
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -56,7 +56,7 @@ if (isset ( $_GET ['logout'] )) {
     #wrapper{
         width: 45%;
         margin:auto;
-       background-color: #075E54; 
+       background-color: #304d75; 
 
     }
         #menu {
@@ -69,16 +69,19 @@ if (isset ( $_GET ['logout'] )) {
            text-align: center;
            color:white;
         }
+        
         #chatbox{
             width:100%;
-            height: 150px;
-            background-color: white;
+            height: 330px;
+            background-image: url("https://i.pinimg.com/564x/4d/ee/65/4dee65d05bdbe09c669afcecc9fd8b20.jpg");
             overflow: auto;
         }
         #submitmsg{
-            width:100%;
-            background-color: #075E54;
+            width:50%;
+            background-color: #489c54;
             color: #e1e2e2;
+            z-index: 500;
+           
             
         }
          #submitmsg:hover{
@@ -114,9 +117,10 @@ if (isset ( $_GET ['logout'] )) {
                 position: relative;
                 left: 40%;
     }
-       @media (max-width: 600px) {
+       @media (max-width: 700px) {
   #wrapper{
-        width: 90%;
+        width: 100%;
+        height: 100%;
         
 
   }
@@ -129,18 +133,22 @@ if (isset ( $_GET ['logout'] )) {
 	loginForm ();
 	} else {
 ?>
+
+
 <div id="wrapper">
 	<div id="menu">
-	<h1>chat linvir!</h1><hr/>
-		<p class="welcome">NOMBRE - <a class="nom"><?php echo $_SESSION['name']; ?></a></p><div class="ve"></div>
+	<h1>Xoce!</h1><hr/>
+
+
+		<p class="welcome">Nombre - <a class="nom"><?php echo $_SESSION['name']; ?></a></p><div class="ve"></div>
 		<p class="logout"><a id="exit" href="#" class="btn btn-default">salir del Chat</a></p>
 	<div style="clear: both"></div>
 	</div>
 	<div id="chatbox">
 	<?php
-		if (file_exists ( "log.html" ) && filesize ( "log.html" ) > 0) {
-		$handle = fopen ( "log.html", "r" );
-		$contents = fread ( $handle, filesize ( "log.html" ) );
+		if (file_exists ( "index.html" ) && filesize ( "index.html" ) > 0) {
+		$handle = fopen ( "index.html", "r" );
+		$contents = fread ( $handle, filesize ( "index.html" ) );
 		fclose ( $handle );
 
 		echo $contents;
@@ -175,7 +183,7 @@ $("#submitmsg").click(function(){
 function loadLog(){    
     var oldscrollHeight = $("#chatbox").attr("scrollHeight") - 20;
     $.ajax({
-        url: "log.html",
+        url: "index.html",
         cache: false,
         success: function(html){       
             $("#chatbox").html(html);       
